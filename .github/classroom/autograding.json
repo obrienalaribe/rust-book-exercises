@@ -1,0 +1,114 @@
+{
+  "tests": [
+    {
+      "name": "a_2",
+      "setup": "",
+      "run": "cargo t --test a",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 2,
+      "points": 2
+    },
+    {
+      "name": "b_4",
+      "setup": "",
+      "run": "cargo t --test b",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 2,
+      "points": 4
+    },
+    {
+      "name": "c_8",
+      "setup": "",
+      "run": "cargo t --test c",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 2,
+      "points": 8
+    },
+    {
+      "name": "d_16",
+      "setup": "",
+      "run": "cargo t --test c",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 2,
+      "points": 16
+    },
+    {
+      "name": "e_32",
+      "setup": "",
+      "run": "cargo t --test e",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 2,
+      "points": 32
+    },
+    {
+      "name": "f_64",
+      "setup": "",
+      "run": "cargo t --test f",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 2,
+      "points": 64
+    },
+    {
+      "name": "g_128",
+      "setup": "",
+      "run": "cargo t --test g",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 2,
+      "points": 128
+    },
+    {
+      "name": "h_256",
+      "setup": "",
+      "run": "cargo t --test h",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 2,
+      "points": 256
+    },
+    {
+      "name": "i_512",
+      "setup": "",
+      "run": "cargo t --test i",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 2,
+      "points": 512
+    },
+    {
+      "name": "j_1024",
+      "setup": "",
+      "run": "cargo t --test j",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 2,
+      "points": 1024
+    },
+    {
+      "name": "k_2048",
+      "setup": "",
+      "run": "cargo t --test k",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 2,
+      "points": 2048
+    }
+  ]
+}
