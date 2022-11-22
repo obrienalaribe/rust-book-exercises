@@ -15,7 +15,7 @@ const FEET_PER_METER: f32 = 3.281;
 impl Distance {
 	/// Convert the given distance to meters
 	pub fn to_meters(&self) -> Self {
-		todo!()
+
 	}
 
 	/// Convert the given distance to feet

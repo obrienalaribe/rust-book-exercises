@@ -15,7 +15,7 @@
 /// solutions to them. You may not share any of it with any other applicants or anyone else at all.
 pub fn exam_no_share() -> bool {
 	// If you have followed this rule, return `true`
-	todo!()
+	true
 }
 
 /// You must work independently on this exam. Seeking help from or otherwise working anyone on your
@@ -23,14 +23,14 @@ pub fn exam_no_share() -> bool {
 /// Academy staff if something is unclear or you are completely stuck.
 pub fn exam_done_independently() -> bool {
 	// If you have followed this rule, return `true`
-	todo!()
+	true
 }
 
 /// The multiple choice portion of the exam must be completed without accessing the internet,
 /// books, or any other resources.
 pub fn multiple_choice_closed_book() -> bool {
 	// If you have followed this rule, return `true`
-	todo!()
+	true
 }
 
 /// The multiple choice portion of this exam has several questions asking for the output of a
@@ -41,7 +41,7 @@ pub fn multiple_choice_closed_book() -> bool {
 /// available at all.
 pub fn multiple_choice_no_run() -> bool {
 	// If you have followed this rule, return `true`
-	todo!()
+	true
 }
 
 /// The coding portion of the exam allows access to books, and websites such as the Rust book, the
@@ -62,7 +62,7 @@ pub fn multiple_choice_no_run() -> bool {
 /// Academy staff for clarification and guidance.
 pub fn coding_no_copy() -> bool {
 	// If you have followed this rule, return `true`
-	todo!()
+	true
 }
 
 /// The coding portion of the exam allows access to books, and websites such as the Rust book, the
@@ -70,7 +70,7 @@ pub fn coding_no_copy() -> bool {
 /// from `crates.io` or elsewhere.
 pub fn coding_no_external_deps() -> bool {
 	// If you have followed this rule, return `true`
-	todo!()
+	true
 }
 
 /// The coding portion of the exam allows access to books, and websites such as the Rust book, the
@@ -79,5 +79,5 @@ pub fn coding_no_external_deps() -> bool {
 /// this exam.
 pub fn coding_no_ai_helpers() -> bool {
 	// If you have followed this rule, return `true`
-	todo!()
+	true
 }
