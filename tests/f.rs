@@ -8,6 +8,14 @@ fn sum_of_squares_1() {
 }
 
 #[test]
+fn sum_of_squares_2() {
+	let initial = [0].into_iter();
+
+	assert_eq!(0, sum_of_squares(initial));
+}
+
+
+#[test]
 fn bounded_absolute_values_1() {
 	let initial = [1, 5, -5, 101, -200, 9, 0].into_iter();
 	let expected = vec![1u32, 5, 5, 9, 0];

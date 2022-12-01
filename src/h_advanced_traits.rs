@@ -56,6 +56,8 @@ pub struct Diesel;
 impl Fuel for Diesel {
 	type Output = Joule;
 	fn energy_density() -> Self::Output {
+
+		return BTU(100).into();
 		todo!("100 BTU")
 	}
 }

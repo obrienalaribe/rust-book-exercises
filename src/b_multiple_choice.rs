@@ -150,8 +150,8 @@ pub fn answer_3_a() -> char {
 /// - c) `1..n+1`
 /// - d) `(1..n).step_by(1)`
 /// - e) `(1..=n).step_by(1)`
-pub fn answer_3_b() -> [char; 2] {
-	['b', 'd'];
+pub fn answer_3_b() -> char {
+	'd'
 }
 
 /// ## Question 4

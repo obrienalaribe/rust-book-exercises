@@ -11,21 +11,17 @@
 /// This function takes an iterator of u32 values, squares each value, and returns the sum of the
 /// squares. You may assume that no individual square, nor the entire sum, overflows the u32 type.
 pub fn sum_of_squares(vals: impl Iterator<Item = u32>) -> u32 {
-	todo!()
+	return vals.map(|x| x * x).sum();
 }
 
 /// This function takes an iterator of i32 values, calculates the absolute value of each, and throws
 /// away any values that are greater than 100. The remaining positive values are returned as an
 /// iterator of u32s.
 pub fn bounded_absolute_values(vals: impl Iterator<Item = i32>) -> impl Iterator<Item = u32> {
-	// You should remove the following line (and this comment). It is just there because the
-	// compiler doesn't allow todo!() when the return type is impl Trait
-	Vec::new().into_iter()
+	vals.filter(|&x: &i32| x.abs() <= 100).map(|x| x.abs() as u32)
 }
 
-// We allow `unused_mut` only so that there is no build warning on the starter code.
-// You should remove this line once you have completed the following function
-#[allow(unused_mut)]
+
 /// This function takes an iterator of u32 values. The first value in the iterator, call it n, is
 /// special: it represents the maximum count of the resultant iterator. Once n is known, create an
 /// iterator that yields the first n even values from the remainder of the input iterator.
@@ -33,19 +29,32 @@ pub fn bounded_absolute_values(vals: impl Iterator<Item = i32>) -> impl Iterator
 /// If the input iterator is empty, return None
 /// If there are fewer than n even values left in the input, return as many as possible
 pub fn first_n_even(mut vals: impl Iterator<Item = u32>) -> Option<impl Iterator<Item = u32>> {
-	// You should remove the following line (and this comment). It is just there because the
-	// compiler doesn't allow todo!() when the return type is impl Trait
-	Some(Vec::new().into_iter())
+
+	//check if first element exist
+	match vals.next().unwrap_or(0) {
+		first_element if first_element > 0 => {
+			let mut n_even_values = vals.filter(|&x| x % 2 == 0)
+				.take(first_element as usize).collect::<Vec<u32>>();
+			match n_even_values.len() {
+				even_values if even_values > 0  => {
+					Some(n_even_values.into_iter())
+				}
+				// No even values in collection
+				_ => { return Some(n_even_values.into_iter())  }
+			}
+		}
+		// Input iterator is empty
+		_ => { return  None }
+	}
 }
+
 
 /// Return an "infinite" iterator that yields the squares of the whole numbers.
 /// For example, the first few values should be 0, 1, 4, 9, 16, 25, ...
 ///
 /// The iterator should be bounded only by the u32 type, not by your code
 pub fn square_whole_numbers() -> impl Iterator<Item = u32> {
-	// You should remove the following line (and this comment). It is just there because the
-	// compiler doesn't allow todo!() when the return type is impl Trait
-	Vec::new().into_iter()
+	return (0..).into_iter().map(|x| x * x);
 }
 
 /// An iterator that generates the Fibonacci sequence.
@@ -62,5 +71,28 @@ impl Iterator for Fibonacci {
 
 	fn next(&mut self) -> Option<u32> {
 		todo!()
+		// self.prev = Some(1);
+		// self.prev_prev = Some(1);
+		//
+		// let values = (1..).into_iter().map(|x|x = self.prev.unwrap() + self.prev_prev.unwrap());
+		//
+		// match self {
+		// 	s if s.prev.is_none() || s.prev_prev.is_none() => {
+		// 		println!("base case");
+		// 		s.prev = Some(1);
+		// 		s.prev_prev = Some(1);
+		// 		Some(1)
+		// 	}
+		// 	s if s.prev.is_some() => {
+		// 		let next_fib = s.prev_prev.unwrap() + s.prev.unwrap();
+		// 		s.prev_prev = s.prev;
+		// 		s.prev = Some(next_fib);
+		// 		s.prev
+		// 	}
+		// 	_ => { None }
+		// 	// 1,1,2,3
+		// }
+		//
+		//
 	}
 }
