@@ -1,6 +1,6 @@
 // Imagine you have an outcome enum like this.
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 pub enum Outcome {
 	Ok,
 	SomethingWentWrong,
@@ -20,15 +20,14 @@ pub fn process_stuff<T>(input: impl Iterator<Item = T>) -> Vec<Outcome> {
 // A bring solution follows 🫣:
 
 pub fn ok_count(outcomes: Vec<Outcome>) -> usize {
-	todo!();
+	outcomes.iter().filter(|&x| *x == Outcome::Ok).count()
 }
 pub fn something_went_wrong_count(outcomes: Vec<Outcome>) -> usize {
-	todo!();
+	outcomes.iter().filter(|&x| *x == Outcome::SomethingWentWrong).count()
 }
 pub fn i_dont_know_count(outcomes: Vec<Outcome>) -> usize {
-	todo!();
+	outcomes.iter().filter(|&x| *x == Outcome::IDontKnow).count()
 }
-
 // This is quite lame. We want to be able to call these methods directly on the `Vec<Outcome>`. But
 // how do we do this? We can't add a function to type `Vec`. This type is part of the standard
 // library!
@@ -47,13 +46,13 @@ pub trait OutcomeCount {
 
 impl OutcomeCount for Vec<Outcome> {
 	fn ok_count(&self) -> usize {
-		todo!();
+		self.iter().filter(|&x| *x == Outcome::Ok).count()
 	}
 	fn i_dont_know_count(&self) -> usize {
-		todo!();
+		self.iter().filter(|&x| *x == Outcome::IDontKnow).count()
 	}
 	fn something_went_wrong_count(&self) -> usize {
-		todo!();
+		self.iter().filter(|&x| *x == Outcome::SomethingWentWrong).count()
 	}
 }
 

@@ -33,7 +33,7 @@ pub fn first_n_even(mut vals: impl Iterator<Item = u32>) -> Option<impl Iterator
 	//check if first element exist
 	match vals.next().unwrap_or(0) {
 		first_element if first_element > 0 => {
-			let mut n_even_values = vals.filter(|&x| x % 2 == 0)
+			let n_even_values = vals.filter(|&x| x % 2 == 0)
 				.take(first_element as usize).collect::<Vec<u32>>();
 			match n_even_values.len() {
 				even_values if even_values > 0  => {
@@ -70,29 +70,18 @@ impl Iterator for Fibonacci {
 	type Item = u32;
 
 	fn next(&mut self) -> Option<u32> {
-		todo!()
-		// self.prev = Some(1);
-		// self.prev_prev = Some(1);
-		//
-		// let values = (1..).into_iter().map(|x|x = self.prev.unwrap() + self.prev_prev.unwrap());
-		//
-		// match self {
-		// 	s if s.prev.is_none() || s.prev_prev.is_none() => {
-		// 		println!("base case");
-		// 		s.prev = Some(1);
-		// 		s.prev_prev = Some(1);
-		// 		Some(1)
-		// 	}
-		// 	s if s.prev.is_some() => {
-		// 		let next_fib = s.prev_prev.unwrap() + s.prev.unwrap();
-		// 		s.prev_prev = s.prev;
-		// 		s.prev = Some(next_fib);
-		// 		s.prev
-		// 	}
-		// 	_ => { None }
-		// 	// 1,1,2,3
-		// }
-		//
-		//
+		let mut sum = 0;
+
+		if self.prev_prev == None{
+			self.prev_prev = Some(0);
+			return Some(0);
+		} else if self.prev == None  {
+			self.prev = Some(1);
+			return Some(1);
+		}
+		sum = self.prev_prev.unwrap() + self.prev.unwrap();
+		self.prev_prev = self.prev;
+		self.prev = Some(sum);
+		return Some(sum);
 	}
 }

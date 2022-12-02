@@ -28,7 +28,45 @@ pub fn bubble_sort(items: &mut [u32]) {
 /// You may look up how the algorithm works (eg here https://en.wikipedia.org/wiki/Merge_sort)
 /// But you may not look up implementations of it in Rust.
 pub fn merge_sort(items: &[u32]) -> Vec<u32> {
-	todo!()
+	if items.len() < 2 {
+		items.to_vec()
+	} else {
+		let size = items.len() / 2;
+		let lhs = merge_sort(&items[0..size].to_vec());
+		let rhs = merge_sort(&items[size..].to_vec());
+		let merged = merge(&lhs, &rhs);
+		merged
+	}
+}
+
+fn merge(lhs: &Vec<u32>, rhs: &Vec<u32>) -> Vec<u32> {
+	let mut i = 0;
+	let mut j = 0;
+	let mut merged: Vec<u32> = Vec::new();
+
+	while i < lhs.len() && j < rhs.len() {
+		if lhs[i] < rhs[j] {
+			merged.push(lhs[i]);
+			i = i + 1;
+		} else {
+			merged.push(rhs[j]);
+			j = j + 1;
+		}
+	}
+
+	if i < lhs.len() {
+		while i < lhs.len() {
+			merged.push(lhs[i]);
+			i = i + 1;
+		}
+	}
+	if j < rhs.len() {
+		while j < rhs.len() {
+			merged.push(rhs[j]);
+			j = j + 1;
+		}
+	}
+	merged
 }
 
 /// Reverse a slice in-place.

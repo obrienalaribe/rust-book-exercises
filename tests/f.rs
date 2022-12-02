@@ -46,7 +46,6 @@ fn square_whole_numbers_1() {
 #[test]
 fn fibonacci_1() {
 	let fib = Fibonacci::default();
-	let expected = vec![1u32, 1, 2, 3, 5, 8, 13];
-
+	let expected = vec![0u32, 1, 1, 2, 3, 5, 8];
 	assert_eq!(expected, fib.take(7).collect::<Vec<_>>());
 }

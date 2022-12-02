@@ -1,0 +1,249 @@
+diff --git a/.gitignore b/.gitignore
+index 9026c77..4c7b3d0 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,2 +1,2 @@
+-/target
++**/target
+ .vscode
+diff --git a/README.md b/README.md
+index bf8edc2..b0b1613 100644
+--- a/README.md
++++ b/README.md
+@@ -77,13 +77,14 @@ However, we encourage you to include unit tests in your solutions as you see fit
+ 
+ ## Submission and Grading
+ 
+-Work will only be graded if pushed to the `main` branch in Github, all other branches will be ignored.
++Only work that exists on Github at the deadline will be considered in grading.
+ 
+ ### Deadline
+ 
+-Github classroom enforces a deadline found on the exam invitation link as will be communicated when the exam is first sent to you.
+-After the deadline you are no longer able to push to your exam repo.
+-All grades will be assessed using the last commit on your `main` branch.
++The deadline for submission will be communicated when the exam is first sent to you, and the Github classroom invitation link mentions this explicitly as well.
++After this deadline you may no longer able to push to your exam repo's `main` branch.
++All grades will be assessed using the commit present on `main` at the time of the deadline.
++All other branches, commits, comments on PRs, etc. will be ignored.
+ 
+ ### Private Test Suite and Manual Grading
+ 
+diff --git a/count-of/src/lib.rs b/count-of/src/lib.rs
+index dd10c25..47b849a 100644
+--- a/count-of/src/lib.rs
++++ b/count-of/src/lib.rs
+@@ -1,6 +1,5 @@
+ // This problem is OPTIONAL
+ 
+-// You may uncomment and use the inflector crate.
+ //use inflector::Inflector;
+ use quote::quote;
+ 
+diff --git a/src/e_common_traits.rs b/src/e_common_traits.rs
+index f31ac71..f5edf0c 100644
+--- a/src/e_common_traits.rs
++++ b/src/e_common_traits.rs
+@@ -50,7 +50,7 @@ pub struct Employee {
+ // * "Jose, 12, 6, 1" - Jose has been working here for 1 year (12 months) and earns 6
+ // tokens per hour. He is employee #1
+ //
+-// Any strings that have the wrong number of commas of numbers too big for `u32` may return `None`
++// Any strings with the wrong number of commas or numbers too big for `u32` should return `Err(())`
+ 
+ //impl TryFrom<String> for Employee  {
+ //     type Error = ();
+diff --git a/src/j_path_finding.rs b/src/j_path_finding.rs
+index 47c9e33..4f8d6b5 100644
+--- a/src/j_path_finding.rs
++++ b/src/j_path_finding.rs
+@@ -37,9 +37,9 @@ pub enum Terrain {
+ impl TryFrom<String> for Terrain {
+ 	type Error = ();
+ 
++	/// OPTIONAL
+ 	fn try_from(s: String) -> Result<Terrain, ()> {
+ 		// String encodings of terrain variants are just their names.
+-		// This problem is OPTIONAL
+ 		todo!("OPTIONAL")
+ 	}
+ }
+@@ -96,7 +96,6 @@ impl TryFrom<String> for Trail {
+ 		// ### Examples:
+ 		// Mountain Top => Green Lake: 2000 (PavedTrail) [19]
+ 		// The Bird Watch => Lost Colony: 400 (Zipline) [20]
+-		// This problem is OPTIONAL
+ 		todo!("OPTIONAL")
+ 	}
+ }
+@@ -126,17 +125,16 @@ impl Default for Hiker {
+ 	}
+ }
+ 
++/// OPTIONAL
+ impl TryFrom<String> for Hiker {
+ 	type Error = ();
+ 
+-	/// OPTIONAL
+ 	/// The format for a hiker is a simple comma separated list of keys and values.
+ 	/// The keys MUST be in the right order or the string is invalid.
+ 	///
+ 	/// Example:
+ 	/// "hiking: Beginner, swimming: Intermediate, strong: false, brave: false"
+ 	fn try_from(value: String) -> Result<Self, ()> {
+-		// This problem is OPTIONAL
+ 		todo!("OPTIONAL")
+ 	}
+ }
+@@ -179,8 +177,8 @@ impl Hiker {
+ 
+ /// OPTIONAL
+ /// This is the main path-finding function. It should be abstract enough that it can solve all of
+-/// the more specific path finding problems below. That is, all of the following problem specific
+-/// functions, should call this function to do the heavy lifting.
++/// the more specific path finding problems in this module. That is, all of the following problem
++/// specific functions, should call this function to do the heavy lifting.
+ ///
+ /// Given a hiker, their starting and ending points, a trail network, and a function that determines
+ /// the cost of the hiker traversing a given trail, determine whether the hiker can reach the
+@@ -192,7 +190,12 @@ pub fn optimal_path(
+ 	trails: impl Iterator<Item = Trail>,
+ 	cost_function: impl Fn(&Hiker, &Trail) -> Option<u32>,
+ ) -> Option<u32> {
+-	// This problem is OPTIONAL
++	// CAUTION!
++	// Although implementing the body of this function is optional, there are three more functions
++	// below that use this one as a helper.
++	// THOSE FUNCTIONS ARE REQUIRED.
++	// Of course, if you don't implement this one, those later three will only ever panic, but this
++	// is fine. They can still be graded against a reference implementation and manually for style.
+ 	todo!("OPTIONAL")
+ }
+ 
+@@ -203,7 +206,11 @@ pub fn optimal_path(
+ pub fn bills_shortest_path_from_green_lake_to_prairie_meadows(
+ 	trails: impl Iterator<Item = Trail>,
+ ) -> Option<u32> {
+-	todo!("Call optimal_path here")
++	// This function is REQUIRED.
++	// Although implementing the `optimal_path` helper is optional, this function, which calls
++	// `optimal_path` is required. It will be graded to function against a reference implementation
++	// and also manually for style.
++	todo!("REQUIRED: Call `optimal_path` here")
+ }
+ 
+ /// A specific path optimization problem. Bill wants to find the safest (least dangerous) path
+@@ -215,7 +222,11 @@ pub fn bills_safest_path(
+ 	destination: String,
+ 	trails: impl Iterator<Item = Trail>,
+ ) -> Option<u32> {
+-	todo!("Call optimal_path here")
++	// This function is REQUIRED.
++	// Although implementing the `optimal_path` helper is optional, this function, which calls
++	// `optimal_path` is required. It will be graded to function against a reference implementation
++	// and also manually for style.
++	todo!("REQUIRED: Call `optimal_path` here")
+ }
+ 
+ /// A specific path optimization problem. Hikers often want to find the fastest (least travel time)
+@@ -224,5 +235,9 @@ pub fn fastest_path_from_green_lake_to_prairie_meadows(
+ 	hiker: &Hiker,
+ 	trails: impl Iterator<Item = Trail>,
+ ) -> Option<u32> {
+-	todo!("Call optimal_path here")
++	// This function is REQUIRED.
++	// Although implementing the `optimal_path` helper is optional, this function, which calls
++	// `optimal_path` is required. It will be graded to function against a reference implementation
++	// and also manually for style.
++	todo!("REQUIRED: Call `optimal_path` here")
+ }
+diff --git a/src/lib.rs b/src/lib.rs
+index 2ac4268..991f353 100644
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -1,11 +1,15 @@
+-// We allow dead code and unused variables and macros throughout the exam because they appear in
+-// many places in the starter code. You should remove this when you think you are done so that the
+-// CI can help you find potential mistakes.
++// NOTE: We allow dead code and unused variables and macros throughout the exam because they appear
++// in many places in the starter code. You should remove this when you think you are done so that
++// the CI can help you find potential mistakes.
+ #![allow(dead_code)]
+ #![allow(unused_variables)]
+ #![allow(unused_macros)]
+ 
+-// Note that your exam will be graded with some unit tests that will be executed as a integration tests (https://doc.rust-lang.org/rust-by-example/testing/integration_testing.html). This has some important implications:
++// NOTE: As the README outlines, your exam will be graded with some unit tests that will be
++// executed as a [integration tests](https://doc.rust-lang.org/rust-by-example/testing/integration_testing.html)
++// included in this repository.
++//
++// This has some important implications:
+ //
+ // 1. Do not make anything private.
+ // 2. Do not change the name/signature of any function.
+diff --git a/tests/b.rs b/tests/b.rs
+index bbb54f1..52d13f5 100644
+--- a/tests/b.rs
++++ b/tests/b.rs
+@@ -41,12 +41,12 @@ fn answer_3_b_sanity_check() {
+ 
+ #[test]
+ fn answer_4_a_sanity_check() {
+-	sanity_check(&answer_3_a)
++	sanity_check(&answer_4_a)
+ }
+ 
+ #[test]
+ fn answer_4_b_sanity_check() {
+-	sanity_check(&answer_3_b)
++	sanity_check(&answer_4_b)
+ }
+ 
+ #[test]
+diff --git a/tests/f.rs b/tests/f.rs
+index e1455a0..30241be 100644
+--- a/tests/f.rs
++++ b/tests/f.rs
+@@ -38,7 +38,7 @@ fn square_whole_numbers_1() {
+ #[test]
+ fn fibonacci_1() {
+ 	let fib = Fibonacci::default();
+-	let expected = vec![1u32, 1, 2, 3, 5, 8, 13];
++	let expected = vec![0u32, 1, 1, 2, 3, 5, 8];
+ 
+ 	assert_eq!(expected, fib.take(7).collect::<Vec<_>>());
+ }
+diff --git a/tests/j.rs b/tests/j.rs
+index 9f490a1..7a96770 100644
+--- a/tests/j.rs
++++ b/tests/j.rs
+@@ -144,7 +144,7 @@ fn optimal_path_1() {
+ 		|_, t| Some(t.distance),
+ 	);
+ 
+-	assert_eq!(op, Some(1400));
++	assert_eq!(op, Some(1400), "OPTIONAL");
+ }
+ 
+ #[test]
+@@ -159,5 +159,5 @@ fn optimal_path_2() {
+ 		|_, t| Some(t.danger as u32),
+ 	);
+ 
+-	assert_eq!(op, Some(70));
++	assert_eq!(op, Some(70), "OPTIONAL");
+ }
+diff --git a/tests/k.rs b/tests/k.rs
+index 682498f..d82febf 100644
+--- a/tests/k.rs
++++ b/tests/k.rs
+@@ -24,7 +24,7 @@ fn impl_get() {
+ 		// should generate `struct Foo` that has a function `get() -> u32`
+ 		Foo: u32 = 10;
+ 		// should generate `pub struct Foo` that has a function `get() -> u32`
+-		pub Bar: u32 = 42;
++		pub struct Bar: u32 = 42;
+ 		// should generate `pub struct Foo` that has a constant function `get() -> u32`
+ 		pub const Baz: u32 = 42;
+ 	);
+

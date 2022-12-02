@@ -40,7 +40,15 @@ impl TryFrom<String> for Terrain {
 	fn try_from(s: String) -> Result<Terrain, ()> {
 		// String encodings of terrain variants are just their names.
 		// This problem is OPTIONAL
-		todo!("OPTIONAL")
+		match s.as_str() {
+			"UnpavedTrail" => { Ok(Terrain::UnpavedTrail) }
+			"PavedTrail" => { Ok(Terrain::PavedTrail) }
+			"RockyTrail" => { Ok(Terrain::RockyTrail) }
+			"Water" => { Ok(Terrain::Water) }
+			"Zipline" => { Ok(Terrain::Zipline) }
+			"RopeBridge" => { Ok(Terrain::RopeBridge) }
+			_ => {Err(())}
+		}
 	}
 }
 
@@ -59,7 +67,12 @@ impl TryFrom<String> for Skill {
 	fn try_from(s: String) -> Result<Skill, ()> {
 		// String encodings of skill variants are just their names.
 		// This problem is OPTIONAL
-		todo!("OPTIONAL")
+		match s.as_str() {
+			"Beginner" => { Ok(Skill::Beginner) }
+			"Intermediate" => { Ok(Skill::Intermediate) }
+			"Expert" => { Ok(Skill::Expert) }
+			_ => {Err(())}
+		}
 	}
 }
 
@@ -89,15 +102,30 @@ impl TryFrom<String> for Trail {
 
 	/// OPTIONAL
 	fn try_from(s: String) -> Result<Trail, ()> {
-		// The encoding of trail information is as follows:
-		//
-		// Starting Site => Ending Site: Distance (Terrain) [Danger]
-		//
-		// ### Examples:
-		// Mountain Top => Green Lake: 2000 (PavedTrail) [19]
-		// The Bird Watch => Lost Colony: 400 (Zipline) [20]
-		// This problem is OPTIONAL
-		todo!("OPTIONAL")
+		let mut value = String::new();
+
+		let mut items: Vec<String> = vec![];
+		for (i, c) in s.chars().enumerate() {
+			if c.is_alphanumeric() || c == ' ' {
+				&value.push(c);
+				continue
+			}
+			let sanitized_value_is_empty = value.trim().is_empty();
+			if !sanitized_value_is_empty {
+				&items.push(value.trim().to_string());
+				value = String::new();
+			}
+		}
+		if items.len() == 5 {
+			return Ok(Trail {
+				start: items[0].to_string(),
+				end: items[1].to_string(),
+				distance: items[2].parse().unwrap(),
+				terrain: Terrain::try_from(items[3].to_string()).unwrap(),
+				danger: items[4].parse().unwrap()
+			})
+		}
+		Err(())
 	}
 }
 
@@ -137,9 +165,58 @@ impl TryFrom<String> for Hiker {
 	/// "hiking: Beginner, swimming: Intermediate, strong: false, brave: false"
 	fn try_from(value: String) -> Result<Self, ()> {
 		// This problem is OPTIONAL
-		todo!("OPTIONAL")
+		let mut word = String::new();
+		let mut items: Vec<String> = vec![];
+		for (i, c) in value.chars().enumerate() {
+			if c.is_alphanumeric() || c == ' ' {
+				&word.push(c);
+				continue
+			}
+			let sanitized_word_is_empty = word.trim().is_empty();
+			if !sanitized_word_is_empty {
+				&items.push(word.trim().to_string());
+				word = String::new();
+
+			}
+		}
+
+		&items.push(value.split(" ").collect::<Vec<&str>>().last().unwrap().trim().to_string());
+
+		if items.len() == 8 {
+			return Ok(Hiker {
+				hiking: Skill::try_from(items[1].to_string()).unwrap(),
+				swimming: Skill::try_from(items[3].to_string()).unwrap(),
+				strong: items[5].parse().unwrap(),
+				brave: items[7].parse().unwrap()
+			});
+		}
+		Err(())
+
 	}
 }
+
+#[derive(Debug)]
+struct TravelTime<'a> {
+	hiker: &'a Hiker,
+	terrain: Terrain,
+	distance: u32,
+}
+
+// Swim
+const BEGINNER_SWIMMER_MULTIPLIER: u32 = 9;
+const INTERMEDIATE_SWIMMER_MULTIPLIER: u32 = 6;
+const EXPERT_SWIMMER_MULTIPLIER: u32 = 3;
+
+// Hiking
+const BEGINNER_ROCKY_MULTIPLIER: u32 = 4;
+const INTERMEDIATE_ROCKY_MULTIPLIER: u32 = 2;
+const ADVANCED_UNPAVED_MULTIPLIER: f32 = 0.5;
+const BEGINNER_UNPAVED_MULTIPLIER: u32 = 2;
+const ADVANCED_PAVED_MULTIPIER: f32 = 0.25;
+const INTERMEDIATE_PAVED_MULTIPIER: f32 = 0.5;
+
+// Zipline
+const HIKER_ZIPLINE_MULTIPLIER :f32 = 0.1;
 
 impl Hiker {
 	/// Returns the time it takes a hiker to traverse a trail, if they can traverse it at all.
@@ -169,11 +246,31 @@ impl Hiker {
 	/// Unpaved |   1/2X   |      1X      |    2X    |
 	///   Paved |   1/4X   |     1/2X     |    1X    |
 	pub fn travel_time(&self, terrain: &Terrain, distance: u32) -> Option<u32> {
-		// Write this function using exactly one match statement.
-		// For full credit, you must use only one match statement.
-		// If you do not know how to do this with a single match statement, write it however you
-		// can, and you will still receive partial credit.
-		todo!()
+
+		let travel_time = TravelTime {hiker: self, terrain: *terrain, distance: distance};
+
+		match travel_time  {
+			tt if tt.terrain == Terrain::Water && tt.hiker.swimming == Skill::Beginner => { return Some(BEGINNER_SWIMMER_MULTIPLIER * distance) }
+			tt if tt.terrain == Terrain::Water && tt.hiker.swimming == Skill::Intermediate => { return Some(INTERMEDIATE_SWIMMER_MULTIPLIER * distance) }
+			tt if tt.terrain == Terrain::Water && tt.hiker.swimming == Skill::Expert => { return Some(EXPERT_SWIMMER_MULTIPLIER * distance) }
+
+			tt if tt.hiker.hiking == Skill::Beginner && tt.terrain == Terrain::RockyTrail => { return Some(BEGINNER_ROCKY_MULTIPLIER * distance) }
+			tt if tt.hiker.hiking == Skill::Intermediate && tt.terrain == Terrain::RockyTrail => { return Some(INTERMEDIATE_ROCKY_MULTIPLIER * distance) }
+			tt if tt.hiker.hiking == Skill::Expert && tt.terrain == Terrain::RockyTrail => { return Some(distance) }
+
+			tt if tt.hiker.hiking == Skill::Beginner && tt.terrain == Terrain::UnpavedTrail => { return Some(BEGINNER_UNPAVED_MULTIPLIER * distance) }
+			tt if tt.hiker.hiking == Skill::Intermediate && tt.terrain == Terrain::UnpavedTrail => { return Some(distance) }
+			tt if tt.hiker.hiking == Skill::Expert && tt.terrain == Terrain::UnpavedTrail => { return Some((ADVANCED_UNPAVED_MULTIPLIER * distance as f32 ) as u32) }
+
+			tt if tt.hiker.hiking == Skill::Beginner && tt.terrain == Terrain::PavedTrail => { return Some(distance) }
+			tt if tt.hiker.hiking == Skill::Intermediate && tt.terrain == Terrain::PavedTrail => { return Some((INTERMEDIATE_PAVED_MULTIPIER * distance as f32) as u32) }
+			tt if tt.hiker.hiking == Skill::Expert && tt.terrain == Terrain::PavedTrail => { return Some((ADVANCED_PAVED_MULTIPIER * distance as f32) as u32) }
+
+			tt if tt.hiker.brave && tt.hiker.strong => { return Some((HIKER_ZIPLINE_MULTIPLIER * distance as f32) as u32) }
+
+			tt if tt.hiker.brave => { return Some(distance) }
+			_ => { return None }
+		};
 	}
 }
 

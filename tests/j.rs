@@ -1,5 +1,7 @@
 use pba_entrance_exam::j_path_finding::*;
 
+// 		Self { strong: true, brave: false, hiking: Skill::Intermediate, swimming: Skill::Expert }
+
 #[test]
 fn terrain_from_string_1() {
 	assert_eq!(Terrain::try_from("UnpavedTrail".to_string()), Ok(Terrain::UnpavedTrail))
@@ -9,6 +11,12 @@ fn terrain_from_string_1() {
 fn terrain_from_string_2() {
 	// Notice to incorrect casing (capital P)
 	assert_eq!(Terrain::try_from("UnPavedTrail".to_string()), Err(()))
+}
+
+#[test]
+fn terrain_from_string_3() {
+	// Notice to incorrect casing (capital P)
+	assert_eq!(Terrain::try_from("".to_string()), Err(()))
 }
 
 #[test]
@@ -31,6 +39,20 @@ fn trail_from_string() {
 			distance: 2000,
 			terrain: Terrain::PavedTrail,
 			danger: 19,
+		})
+	)
+}
+
+#[test]
+fn trail_from_string_2() {
+	assert_eq!(
+		Trail::try_from("The Bird Watch => Lost Colony: 400 (Zipline) [20]".to_string()),
+		Ok(Trail {
+			start: "The Bird Watch".into(),
+			end: "Lost Colony".into(),
+			distance: 400,
+			terrain: Terrain::Zipline,
+			danger: 20,
 		})
 	)
 }
