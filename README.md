@@ -103,3 +103,4 @@ There are also some human-graded aspects such as:
 ## 🚀 Good luck! 🚀
 
 Please reach out to the Academy team if you have any questions or concerns related to the exam.
+# rust-book-exercises
