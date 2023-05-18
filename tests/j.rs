@@ -47,6 +47,7 @@ fn trail_from_string() {
 fn trail_from_string_2() {
 	assert_eq!(
 		Trail::try_from("The Bird Watch => Lost Colony: 400 (Zipline) [20]".to_string()),
+
 		Ok(Trail {
 			start: "The Bird Watch".into(),
 			end: "Lost Colony".into(),
